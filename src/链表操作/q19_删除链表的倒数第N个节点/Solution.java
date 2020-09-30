@@ -1,25 +1,50 @@
 package 链表操作.q19_删除链表的倒数第N个节点;
 
 /**
- * 利用两个指针 o(n)
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
  */
-public class Solution {
-
+class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode first = dummy;
-        ListNode second = dummy;
-
-        for (int i = 1; i <= n + 1; i++) {
-            first = first.next;
+        if(head == null) {
+            return head;
+        }
+        if(head.next == null && n == 0) {
+            return head;
+        }
+        if(head.next == null && n == 1) {
+            return null;
         }
 
-        while (first != null) {
-            first = first.next;
-            second = second.next;
+        ListNode preTargetNode = null;
+        boolean preTagetMoveFloag = false;
+
+        ListNode currentNode = head;
+        int moveCount = 0;
+
+        while(currentNode != null) {
+            currentNode = currentNode.next;
+            moveCount++;
+
+            if(preTagetMoveFloag) {
+                preTargetNode = preTargetNode.next;
+            }
+
+            if(moveCount - 1 == n) {
+                preTagetMoveFloag = true;
+                preTargetNode = head;
+            }
         }
-        second.next = second.next.next;
-        return dummy.next;
+        if(preTargetNode == null) {
+            head = head.next;
+        } else if(preTargetNode.next != null) {
+            preTargetNode.next = preTargetNode.next.next;
+        }
+  
+        return head;
     }
 }
