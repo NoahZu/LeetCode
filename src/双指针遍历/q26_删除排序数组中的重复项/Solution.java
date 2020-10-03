@@ -3,22 +3,22 @@ package 双指针遍历.q26_删除排序数组中的重复项;
 /**
  * 双指针 o(n)
  */
-public class Solution {
+class Solution {
     public int removeDuplicates(int[] nums) {
-        if (nums.length < 2) {
-            return nums.length;
+        if(nums.length == 0) {
+            return 0;
         }
-        int c = 0;
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] != nums[c]) {
-                c++;
-                nums[c] = nums[i];
+        int i = 0;
+        for(int j = 1;j<nums.length;j++) {
+            if(nums[i] != nums[j]) {
+                i++;
+                nums[i] = nums[j];
             }
         }
-        return c + 1;
+        return i+1;
     }
 
-    public static void main(String[] args) {
-        new Solution().removeDuplicates(new int[]{1, 1, 2});
-    }
 }
+
+
+
