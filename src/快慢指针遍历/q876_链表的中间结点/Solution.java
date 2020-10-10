@@ -2,15 +2,19 @@ package 快慢指针遍历.q876_链表的中间结点;
 
 /**
  * 快慢指针法 o(n)
- */
-public class Solution {
-
+class Solution {
     public ListNode middleNode(ListNode head) {
-        ListNode slow = head, fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+        if(head == null || head.next == null) {
+            return head;
         }
-        return slow;
+
+        ListNode endNode = head;
+        ListNode middleNode = head;
+
+        while(endNode != null && endNode.next != null) {
+            endNode = endNode.next.next;
+            middleNode = middleNode.next;
+        }
+        return middleNode;
     }
 }
