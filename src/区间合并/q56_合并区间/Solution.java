@@ -8,30 +8,34 @@ import java.util.*;
  */
 class Solution {
     public int[][] merge(int[][] intervals) {
-        if(intervals.length <= 1){
+        if(intervals.length <= 1) {
             return intervals;
         }
 
-        Arrays.sort(intervals, Comparator.comparingInt(arr -> arr[0]));
-
-        int[] currInterval = intervals[0];
-        List<int[]> resArr = new ArrayList<>();
-        resArr.add(currInterval);
-
-        for(int[] interval: intervals){
-            int currEnd = currInterval[1];
-
-            int nextBegin = interval[0];
-            int nextEnd = interval[1];
-
-            if(currEnd >= nextBegin){
-                currInterval[1] = Math.max(currEnd, nextEnd);
-            } else{
-                currInterval = interval;
-                resArr.add(currInterval);
+        //排序
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] ints, int[] t1) {
+                return ints[0] - t1[0];
             }
-        }
+        });
 
-        return resArr.toArray(new int[resArr.size()][]);
+        List<int[]> result = new ArrayList<int[]>();
+        int[] merged = intervals[0];
+
+        for(int i = 1;i<intervals.length ;i++) {
+            int[] cu = intervals[i];
+
+            //可以合并
+            if(cu[0] >= merged[0] && cu[0] <= merged[1]) {
+                merged[1] = Math.max(cu[1],merged[1]);
+            } else {
+                result.add(merged);
+                merged = intervals[i];
+            }
+
+        }
+        result.add(merged);
+        return result.toArray(new int[result.size()][]);
     }
 }
