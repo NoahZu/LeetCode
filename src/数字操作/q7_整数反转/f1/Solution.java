@@ -3,26 +3,27 @@ package 数字操作.q7_整数反转.f1;
 /**
  * 转成String o(n) 捕获异常判断是否溢出
  */
-public class Solution {
-    public int reverse(int x) {
-        String s = String.valueOf(x);
-        String rs = "";
-        boolean f = false;
-        for (int i = s.length() - 1; i >= 0; i--) {
-            if (s.charAt(i) == '-') {
-                f = true;
-            } else {
-                rs += s.charAt(i);
+class Solution {
+     public static int reverse(int x) {
+        List<Integer> nums = new ArrayList<Integer>();
+        int symbol = x < 0 ? -1 : 1;
+        x = Math.abs(x);
+
+        while(x >0) {
+            nums.add(x % 10);
+            x = x / 10;
+        }
+        int result = 0;
+        for(int i = 0;i < nums.size();i++) {
+            //判断溢出
+            if(i == 9 && (result > Integer.MAX_VALUE / 10) || (result * 10 > Integer.MAX_VALUE - nums.get(i))) {
+                return 0;
+            }
+            result = (result * 10) + nums.get(i);
+            if(result < 0) {
+                return 0;
             }
         }
-        try {
-            return f ? Integer.parseInt(rs) * (-1) : Integer.parseInt(rs);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Solution().reverse(1234));
+        return result * symbol;
     }
 }
