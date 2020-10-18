@@ -3,28 +3,32 @@ package 数字操作.q9_回文数;
 /**
  * 不转换成String 反转一半的数字o(log(n))
  */
-public class Solution {
+class Solution {
     public boolean isPalindrome(int x) {
-        if (x < 0) {
-            return false;
-        }
-        if (x < 10) {
+        if(x < 10 && x >= 0) {
             return true;
         }
-        if (x % 10 == 0) {
+
+        if(x < 0) {
             return false;
         }
-        int rs = 0;
-        while (rs < x / 10) {
-            int y = x % 10;
-            x = x / 10;
-            rs = rs * 10 + y;
-            if (rs == x) {
-                return true;
-            } else if (x / 10 == rs) {
-                return true;
-            }
+
+        List<Integer> list = new ArrayList<Integer>();
+        while(x > 0) {
+            list.add(x % 10);
+            x /= 10;
         }
-        return false;
+
+        int left = 0;
+        int right = list.size() - 1;
+
+        while(left <= right) {
+            if(list.get(left) != list.get(right)) {
+                return false;
+            }
+            left ++;
+            right --;
+        }
+        return true;
     }
 }
