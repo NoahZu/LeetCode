@@ -8,36 +8,28 @@ import java.util.Queue;
 /**
  * 利用队列迭代 o(n)
  */
-public class Solution {
+class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-
-        List<List<Integer>> levels = new ArrayList<>();
-        if (root == null) {
-            return levels;
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Deque<TreeNode> queue = new LinkedList<TreeNode>();
+        if(root != null) {
+            queue.add(root);
         }
-
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int level = 0;
-        while (!queue.isEmpty()) {
-
-            levels.add(new ArrayList<>());
-
-            int levelLength = queue.size();
-
-            for (int i = 0; i < levelLength; ++i) {
-                TreeNode node = queue.remove();
-                levels.get(level).add(node.val);
-
-                if (node.left != null) {
+        while(!queue.isEmpty()) {
+            int len = queue.size();
+            List<Integer> list = new ArrayList<Integer>();
+            for(int i = 0;i<len;i++) {
+                TreeNode node = queue.pop();
+                list.add(node.val);
+                if(node.left != null) {
                     queue.add(node.left);
                 }
-                if (node.right != null) {
+                if(node.right != null) {
                     queue.add(node.right);
                 }
             }
-            level++;
+            res.add(list);
         }
-        return levels;
+        return res;
     }
 }
