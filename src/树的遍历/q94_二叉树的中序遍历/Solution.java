@@ -7,19 +7,19 @@ import java.util.Stack;
 /**
  * 非递归 o(n)
  */
-public class Solution {
+class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> rs = new ArrayList<>();
-        Stack<TreeNode> stack = new Stack<>();
-        while (!stack.empty() || root != null) {
-            while (root != null) {
-                stack.push(root);
-                root = root.left;
-            }
-            root = stack.pop();
-            rs.add(root.val);
-            root = root.right;
+        List<Integer> result = new ArrayList<Integer>();
+        if(root == null) {
+            return result;
         }
-        return rs;
+        if(root.left != null) {
+            result.addAll(inorderTraversal(root.left));
+        }
+        result.add(root.val);
+        if(root.right != null) {
+            result.addAll(inorderTraversal(root.right));
+        }
+        return result;
     }
 }
