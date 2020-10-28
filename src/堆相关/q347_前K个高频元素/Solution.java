@@ -6,27 +6,24 @@ import java.util.*;
  * 利用大根堆（PriorityQueue）实现 o(n*log(k))
  */
 class Solution {
-    public List<Integer> topKFrequent(int[] nums, int k) {
-
-        HashMap<Integer, Integer> count = new HashMap<>();
-        for (int n : nums) {
-            count.put(n, count.getOrDefault(n, 0) + 1);
-        }
-
-        PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.comparingInt(count::get));
-
-        for (int n : count.keySet()) {
-            heap.add(n);
-            if (heap.size() > k) {
-                heap.poll();
+    public int[] topKFrequent(int[] nums, int k) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>((ints, t1) -> t1[1] - ints[1]);
+        Map<Integer,Integer> map = new HashMap<>();
+        for (int num : nums) {
+            if (map.containsKey(num)) {
+                map.put(num, map.get(num) + 1);
+            } else {
+                map.put(num, 0);
             }
         }
 
-        List<Integer> topK = new LinkedList<>();
-        while (!heap.isEmpty()) {
-            topK.add(heap.poll());
+        for (int key : map.keySet()) {
+            queue.add(new int[] {key,map.get(key)});
         }
-        Collections.reverse(topK);
-        return topK;
+        int[] result = new int[k];
+        for(int i = 0;i<k;i++) {
+            result[i] = Objects.requireNonNull(queue.poll())[0];
+        }
+        return result;
     }
 }
